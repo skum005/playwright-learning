@@ -98,6 +98,44 @@ Refer the sample test file with the examples of various types of assertions
 
 [Assertions Example](tests/assertions.spec.js)
 
+## Waiting
+
+Refer the sample test file with wait examples
+
+[Waiting Examples](tests/waiting.spec.js)
+
+## Timeouts 
+
+There are different types of timouts in playwright. 
+
+1. Global Timeout : Maximum time that the whole pack can take to execute. If it total execution time crosses this time, the test execution would be aborted. This can be configured in the [playwright.config.js](playwright.config.js) file using the variable **globalTimeout** at the root level. 
+
+2. Test timeout: Maximum time that a single test can take to execute. This can be configured in the [playwright.config.js](playwright.config.js) file and also at the individual test level. Default value is 30000 ms.
+
+Global timeout and test timeout configuration:
+
+```
+timeout: 500000,
+globalTimeout : 1800000,
+```
+
+3. Test timeout has 3 child timeouts. 
+
+- **Action timeout**: timeout for completing actions on element. E.g. click(), fill(). Can be configured in **use** section of the playwright.config.js file.  
+- **Navigation timeout**: timeout for completing navigation. E.g. page.goto(). Can be configured in **use** section of the playwright.config.js file.  
+
+![Timeouts Configuration for actions and navigation](documentation/test-timeouts.png)
+
+- **Locator assertion timeout**: timeout for completing locator assertions. Default value is 5000 ms
+
+```
+expect : {
+    timeout : 10000
+  }
+```
+
+Few code snippets of timeout examples are saved in this file -> [Timeout Examples](tests/timeouts.spec.js) 
+
 ## Interacting with elements
 
 ### Extracting values - text, attribute values, properties
