@@ -144,3 +144,14 @@ Refer the sample test file with the examples of how to extract values from eleme
 
 [Extract values](tests/extracting-values.spec.js)
 
+### Input fields
+
+[Example test for input fields](tests/input-fields.spec.js)
+
+### Radio buttons
+
+[Example test for radio buttons](tests/radio.spec.js)
+
+### Check boxes
+
+[Example test for check boxes](tests/checkboxes.spec.js)
