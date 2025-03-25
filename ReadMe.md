@@ -155,3 +155,19 @@ Refer the sample test file with the examples of how to extract values from eleme
 ### Check boxes
 
 [Example test for check boxes](tests/checkboxes.spec.js)
+
+### Mouse Hover 
+
+[Example test to invoke mouse hover](tests/hover.spec.js)
+
+### Tables example
+
+[Interacting with table example](tests/tables.spec.js)
+
+### Working with dialog boxes
+
+[Example test for interacting with dialog boxes](tests/dialogboxes.spec.js)
+
+### Updating element attributes
+
+[Example test for demo attribute update](tests/update.attrib.spec.js)
