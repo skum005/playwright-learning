@@ -20,7 +20,7 @@ export default defineConfig({
     timeout : 10000
   },
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -37,7 +37,15 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     actionTimeout : 20000,
-    navigationTimeout: 100000
+    navigationTimeout: 100000,
+    //video : 'on',
+    video : {
+      mode : 'on',
+      size : {
+        height : 480,
+        width : 640
+      }
+    }
   },
 
   /* Configure projects for major browsers */
@@ -45,6 +53,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      fullyParallel : true
     },
 
     {

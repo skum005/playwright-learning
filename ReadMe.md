@@ -171,3 +171,117 @@ Refer the sample test file with the examples of how to extract values from eleme
 ### Updating element attributes
 
 [Example test for demo attribute update](tests/update.attrib.spec.js)
+
+
+## Parallel execution configuration
+
+Local execution - By default Playwright creates a worker(instance of a browser) for each spec file. All spec files are executed in parallel but the tests inside the spec files are executed in serial inside the same worker. 
+
+### Default configuration is below. Meaning of the below config is 
+
+- 1 worker only for all the spec when executed in CI
+- 1 worker per spec when executed in local
+- fullyParallel is false represents do not execute tests inside the spec files in parallel
+
+```
+workers: process.env.CI ? 1 : undefined,
+fullyParallel: false,
+```
+
+Here are the different settings to modify parallel execution set up
+
+### Execute tests inside specs in parallel
+
+- change fullyParallel to true
+
+```
+workers: process.env.CI ? 1 : undefined,
+fullyParallel: true,
+```
+
+### Execute all specs & tests in serial
+
+- change fully parallel to false
+- set number of workers to 1
+
+```
+workers: process.env.CI ? 1 : 1,
+fullyParallel: false,
+```
+
+### Changing the order of execution during parallel execution
+
+By default Playwright executes tests in random order, however if you would like to define the execution order, change the prefix of spec file names to numbers like 001, 002, 003 etc.  e.g. 001-hover.spec.js
+
+### Execute specific tests(under a describe block) in specific spec files in parallel and remaining in serial
+
+This change needs to be done in a spec file. [Here is the example](./tests/describe.spec.js)
+
+### Execute all tests in specific spec files in parallel and remaining in serial
+
+Below configuration needs to be added to the spec file 
+
+```
+test.describe.configure({mode: 'parallel'})
+```
+
+### To create test dependency - executing specific tests in serial
+
+Inside the describe block create a configuration to execute tests in serial. Example below
+
+```
+test.describe('All search tests', () => {
+    test.describe.configure({mode: 'serial'})
+    test('Basic search', async({page}) => {
+        const searchBtn = page.locator('textarea[title="Search"]')
+        await searchBtn.fill('Playwright')
+        const title = await page.title()
+        expect(title).toEqual('Google')
+    })
+
+    test('About link', async({page}) => {
+        const aboutLink = page.locator('//a[text()="About"]')
+        await aboutLink.click()
+        const title = await page.title()
+        expect(title).toEqual('About Google: Our products, technology and company information - About Google')
+    })
+
+
+})
+```
+
+If one of the previous tests in the describe block fails, then the consecutive tests would be skipped as they are dependant
+
+### To execute all tests in spec files in parallel for a specific browser
+
+Use the below configuration to execute the tests in parallel for a specific browser
+
+```
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+      fullyParallel : true
+    }
+```
+
+## Screenshots & Videos
+
+[An example spec file](/tests/screenshots.spec.js) is created to demonstrate the usage of screenshot() method. 
+
+To enable recording of the tests, update the below config playwright.config.js file under **use** object
+
+```
+video : 'on'
+```
+
+Also video quality settings can also be set. Example below
+
+```
+video : {
+      mode : 'on',
+      size : {
+        height : 480,
+        width : 640
+      }
+    }
+```
